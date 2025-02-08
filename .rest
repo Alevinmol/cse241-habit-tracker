@@ -10,3 +10,9 @@ Content-Type: application/json
     "name":"Alejandra",
     "email":"caritasale@test.com"
 }
+
+### render 
+GET https://cse241-habit-tracker.onrender.com
+
+### render users
+GET https://cse241-habit-tracker.onrender.com/users
