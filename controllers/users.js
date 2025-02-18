@@ -50,4 +50,79 @@ const createUser = async (req, res) => {
   }
 };
 
-module.exports = { getAll, createUser };
+const updateUser = async (req, res) => {
+  try {
+    const userId = req.params.id;
+
+    // 🛑 Validate userId format
+    if (!ObjectId.isValid(userId)) {
+      return res.status(400).json({ message: "Invalid user ID format." });
+    }
+
+    // 🛑 Validate request body
+    const { name, email } = req.body;
+    if (!name || typeof name !== "string" || name.trim().length === 0) {
+      return res.status(400).json({ message: "Name is required and must be a non-empty string." });
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email || !emailRegex.test(email)) {
+      return res.status(400).json({ message: "A valid email is required." });
+    }
+
+    // ✅ Prepare update object
+    const updateFields = {
+      $set: {
+        name: name.trim(),
+        email: email.trim()
+      }
+    };
+
+    // ✅ Perform update
+    const db = mongodb.getDb();
+    const response = await db.collection("users").updateOne(
+      { _id: new ObjectId(userId) },
+      updateFields
+    );
+
+    if (response.matchedCount === 0) {
+      return res.status(404).json({ message: "User not found." });
+    }
+
+    if (response.modifiedCount > 0) {
+      return res.status(200).json({ message: "User updated successfully." });
+    }
+
+    res.status(200).json({ message: "No changes made to the user." });
+  } catch (err) {
+    console.error("Error updating user:", err);
+    res.status(500).json({ message: "Internal Server Error", error: err.message });
+  }
+};
+
+const deleteUser = async (req, res) => {
+  try {
+    const userId = req.params.id;
+
+    // 🛑 Validate userId format
+    if (!ObjectId.isValid(userId)) {
+      return res.status(400).json({ message: "Invalid user ID format." });
+    }
+
+    // ✅ Delete user from MongoDB
+    const db = mongodb.getDb();
+    const response = await db.collection("users").deleteOne({ _id: new ObjectId(userId) });
+
+    if (response.deletedCount === 0) {
+      return res.status(404).json({ message: "User not found." });
+    }
+
+    res.status(200).json({ message: "User deleted successfully." });
+  } catch (err) {
+    console.error("Error deleting user:", err);
+    res.status(500).json({ message: "Internal Server Error", error: err.message });
+  }
+};
+
+
+module.exports = { getAll, createUser, updateUser, deleteUser };

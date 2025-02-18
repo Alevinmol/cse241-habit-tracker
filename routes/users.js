@@ -11,8 +11,8 @@ router.post('/',
     regValidate.registrationRules(),
     utilities.handleErrors(contactsController.createUser));
 
-router.put('/:id');
+router.put('/:id', contactsController.updateUser);
 
-router.delete('/:id');
+router.delete('/:id', contactsController.deleteUser);
 
 module.exports = router;

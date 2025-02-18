@@ -11,6 +11,20 @@ Content-Type: application/json
     "email":"chavavin@test.com"
 }
 
+### Update contact
+PUT  http://localhost:8080/users/67b3fcf599da43df9e4f1a8e HTTP/1.1
+Content-Type: application/json
+
+{
+    "name":"Payton",
+    "email":"bronco@test.com"
+}
+
+
+### Delete constact
+DELETE  http://localhost:8080/users/67a7e5ce7cb0fb9618485ed1 HTTP/1.1
+
+
 
 
 ### render 
@@ -18,3 +32,12 @@ GET https://cse241-habit-tracker.onrender.com
 
 ### render users
 GET https://cse241-habit-tracker.onrender.com/users
+
+## Create contact
+POST https://cse241-habit-tracker.onrender.com/users
+Content-Type: application/json
+
+{
+    "name":"",
+    "email":"chavavin@test.com"   
+}
