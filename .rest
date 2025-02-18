@@ -7,17 +7,17 @@ POST http://localhost:8080/users HTTP/1.1
 Content-Type: application/json
 
 {
-    "name":"",
-    "email":"chavavin@test.com"
+    "name":"Alejandro",
+    "email":"alevinmoo@test.com"
 }
 
-### Update contact
-PUT  http://localhost:8080/users/67b3fcf599da43df9e4f1a8e HTTP/1.1
+### Update user
+PUT  http://localhost:8080/users/67b40e09c59d48f334935ac7 HTTP/1.1
 Content-Type: application/json
 
 {
-    "name":"Payton",
-    "email":"bronco@test.com"
+    "name":"Alejandro",
+    "email":"chuyvinay@test.com"
 }
 
 

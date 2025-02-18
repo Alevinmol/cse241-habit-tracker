@@ -8,8 +8,7 @@ const contactsController = require('../controllers/users');
 router.get('/', contactsController.getAll);
 
 router.post('/', 
-    regValidate.registrationRules(),
-    utilities.handleErrors(contactsController.createUser));
+    contactsController.createUser);
 
 router.put('/:id', contactsController.updateUser);
 
