@@ -14,15 +14,39 @@ const getAll = async (req, res) => {
 };
 
 const createUser = async (req, res) => {
-  const user = {
-    name: req.body.name,
-    email: req.body.email
-  };
-  const response = await mongodb.getDb().collection('users').insertOne(user);
-  if (response.acknowledged) {
-    res.status(201).json(response);
-  } else {
-    res.status(500).json(response.error || 'Some error occurred while creating the contact.');
+  try {
+    const { name, email } = req.body;
+
+    // 🛑 Validation: Ensure name and email exist
+    if (!name || typeof name !== "string" || name.trim().length === 0) {
+      return res.status(400).json({ message: "Name is required and must be a non-empty string." });
+    }
+
+    // 🛑 Validation: Ensure email is valid
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email || !emailRegex.test(email)) {
+      return res.status(400).json({ message: "A valid email is required." });
+    }
+
+    // ✅ Create user object
+    const user = {
+      name: name.trim(),
+      email: email.trim(),
+      createdAt: new Date()
+    };
+
+    // ✅ Insert user into MongoDB
+    const db = mongodb.getDb();
+    const response = await db.collection("users").insertOne(user);
+
+    if (response.acknowledged) {
+      res.status(201).json({ message: "User created successfully", userId: response.insertedId });
+    } else {
+      res.status(500).json({ message: "Failed to create user" });
+    }
+  } catch (err) {
+    console.error("Error creating user:", err);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 

@@ -7,9 +7,11 @@ POST http://localhost:8080/users HTTP/1.1
 Content-Type: application/json
 
 {
-    "name":"Alejandra",
-    "email":"caritasale@test.com"
+    "name":"",
+    "email":"chavavin@test.com"
 }
+
+
 
 ### render 
 GET https://cse241-habit-tracker.onrender.com
