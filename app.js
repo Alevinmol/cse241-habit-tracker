@@ -1,9 +1,12 @@
-const express = require('express');
+const express = require("express");
 const session = require("express-session");
 const passport = require("./middleware/auth").passport;
-const bodyParser = require('body-parser');
-const mongodb = require('./db/connect');
+const bodyParser = require("body-parser");
+const mongodb = require("./db/connect");
 const dotenv = require("dotenv");
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require("./swagger.json");
+const path = require("path");
 
 dotenv.config();
 
@@ -26,7 +29,27 @@ app
     next();
   })
   .use("/auth", require("./routes/authRoutes")) // New Auth Routes
-  .use("/", require("./routes"));
+  .use("/", require("./routes"))
+  .use(
+    "/api-docs",
+    swaggerUi.serve,
+    swaggerUi.setup(swaggerDocument, {
+      swaggerOptions: {
+        oauth2RedirectUrl: "http://localhost:8080/api-docs/oauth2-redirect.html"
+      },
+      initOAuth: {
+        clientId: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        scopes: ["openid", "profile", "email"],
+        flow: "authorizationCode",
+        usePkceWithAuthorizationCodeGrant: true
+      }
+    })
+  )
+  .use("/habits", require("./routes/habits"))
+  .use("/users", require("./routes/users"))
+  //.use("/api-docs", express.static(path.join(__dirname, "node_modules/swagger-ui-dist")));
+
 
 mongodb.initDb((err, mongodb) => {
   if (err) {

@@ -1,8 +1,31 @@
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const JwtStrategy = require("passport-jwt").Strategy;
+const ExtractJwt = require("passport-jwt").ExtractJwt;
 const jwt = require("jsonwebtoken");
 const mongodb = require("../db/connect");
 const { ObjectId } = require("mongodb");
+
+const opts = {
+  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+  secretOrKey: process.env.JWT_SECRET
+};
+
+passport.use(
+  new JwtStrategy(opts, async (jwtPayload, done) => {
+    try {
+      const db = mongodb.getDb();
+      const user = await db.collection("users").findOne({ _id: new ObjectId(jwtPayload.id) });
+
+      if (user) {
+        return done(null, user);
+      }
+      return done(null, false);
+    } catch (err) {
+      return done(err, false);
+    }
+  })
+);
 
 passport.use(
   new GoogleStrategy(
@@ -20,7 +43,6 @@ passport.use(
           return done(null, existingUser);
         }
 
-        // If user does not exist, create a new user
         const newUser = {
           name: profile.displayName,
           email: profile.emails[0].value,
@@ -37,12 +59,10 @@ passport.use(
   )
 );
 
-// Serialize user to session
 passport.serializeUser((user, done) => {
   done(null, user._id);
 });
 
-// Deserialize user from session
 passport.deserializeUser(async (id, done) => {
   try {
     const db = mongodb.getDb();
@@ -53,9 +73,10 @@ passport.deserializeUser(async (id, done) => {
   }
 });
 
-// Generate JWT Token
 const generateToken = (user) => {
-  return jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET, { expiresIn: "1h" });
+  return jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET, {
+    expiresIn: "1h"
+  });
 };
 
 module.exports = { passport, generateToken };

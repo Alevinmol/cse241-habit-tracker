@@ -1,9 +1,12 @@
 GET http://localhost:8080 HTTP/1.1
 ### users
 GET http://localhost:8080/users HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YzNhODhkODM1ODVjMmMzMzc5MmEwOCIsImVtYWlsIjoiYWxldmlubW9sQGdtYWlsLmNvbSIsImlhdCI6MTc0MDg4MjMyNSwiZXhwIjoxNzQwODg1OTI1fQ._7KsXDPL5spv4HBgglnlAQI7ynZmkPu5AQmvkELsgNU
+Content-Type: application/json
 
 ### Create contact
 POST http://localhost:8080/users HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YzNhODhkODM1ODVjMmMzMzc5MmEwOCIsImVtYWlsIjoiYWxldmlubW9sQGdtYWlsLmNvbSIsImlhdCI6MTc0MDg4MjMyNSwiZXhwIjoxNzQwODg1OTI1fQ._7KsXDPL5spv4HBgglnlAQI7ynZmkPu5AQmvkELsgNU
 Content-Type: application/json
 
 {
@@ -12,11 +15,12 @@ Content-Type: application/json
 }
 
 ### Update user
-PUT  http://localhost:8080/users/67b40e09c59d48f334935ac7 HTTP/1.1
+PUT  http://localhost:8080/users/67c3c1f2579adf7eeae69ff9 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YzNhODhkODM1ODVjMmMzMzc5MmEwOCIsImVtYWlsIjoiYWxldmlubW9sQGdtYWlsLmNvbSIsImlhdCI6MTc0MDg4NTk2MiwiZXhwIjoxNzQwODg5NTYyfQ.SeHwC101J5Oy1tZg2rkpTfCZcLC8zptQV6btQb9q1Ts
 Content-Type: application/json
 
 {
-    "name":"Alejandro",
+    "name":"Alejandro master",
     "email":"chuyvinay@test.com"
 }
 
@@ -25,7 +29,43 @@ Content-Type: application/json
 DELETE  http://localhost:8080/users/67a7e5ce7cb0fb9618485ed1 HTTP/1.1
 
 
+### Get all habits
+GET http://localhost:8080/habits HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YzNhODhkODM1ODVjMmMzMzc5MmEwOCIsImVtYWlsIjoiYWxldmlubW9sQGdtYWlsLmNvbSIsImlhdCI6MTc0MDg4NTk2MiwiZXhwIjoxNzQwODg5NTYyfQ.SeHwC101J5Oy1tZg2rkpTfCZcLC8zptQV6btQb9q1Ts
+Content-Type: application/json
 
+### Create habit
+POST http://localhost:8080/habits HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YzNhODhkODM1ODVjMmMzMzc5MmEwOCIsImVtYWlsIjoiYWxldmlubW9sQGdtYWlsLmNvbSIsImlhdCI6MTc0MDg4NTk2MiwiZXhwIjoxNzQwODg5NTYyfQ.SeHwC101J5Oy1tZg2rkpTfCZcLC8zptQV6btQb9q1Ts
+Content-Type: application/json
+
+{
+    "name":"Pray",
+    "description":"pray everyday",
+    "category":"espiritual",
+    "frequency":"daily",
+    "goal":"to pray every morning",
+    "userId":"67b40e09c59d48f334935ac7"
+}
+
+### Update habit
+PUT  http://localhost:8080/habits/67c3d40a2459dbd5b8654949 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YzNhODhkODM1ODVjMmMzMzc5MmEwOCIsImVtYWlsIjoiYWxldmlubW9sQGdtYWlsLmNvbSIsImlhdCI6MTc0MDg4NTk2MiwiZXhwIjoxNzQwODg5NTYyfQ.SeHwC101J5Oy1tZg2rkpTfCZcLC8zptQV6btQb9q1Ts
+Content-Type: application/json
+
+{
+    "name":"Pray",
+    "description":"pray every morning",
+    "category":"espiritual",
+    "frequency":"daily",
+    "goal":"to pray every morning",
+    "userId":"67b40e09c59d48f334935ac7"
+}
+
+### Delete habit
+DELETE  http://localhost:8080/habits/67c3d40a2459dbd5b8654949 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YzNhODhkODM1ODVjMmMzMzc5MmEwOCIsImVtYWlsIjoiYWxldmlubW9sQGdtYWlsLmNvbSIsImlhdCI6MTc0MDg4NTk2MiwiZXhwIjoxNzQwODg5NTYyfQ.SeHwC101J5Oy1tZg2rkpTfCZcLC8zptQV6btQb9q1Ts
+Content-Type: application/json
 
 ### render 
 GET https://cse241-habit-tracker.onrender.com
